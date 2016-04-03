@@ -1,0 +1,9 @@
+I am creating a collection of thread related classes by having
+everything declared and defined in the thread.h file.  As a result,
+there is no library to be linked.  The application simply includes the
+thread.h file and be done with it.
+
+Comments, questions and pull requests are equally welcome.
+--
+Thanks,
+-WeeSan <weesan@weesan.com>
