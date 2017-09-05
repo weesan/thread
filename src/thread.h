@@ -16,6 +16,7 @@
 #define THREAD_H
 
 #include <stdio.h>
+#include <unistd.h>
 #include <pthread.h>
 #include <errno.h>
 #include <list>
