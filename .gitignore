@@ -1,9 +1,11 @@
 *~
 *.o
+autom4te.cache/
 Makefile
 config.h
 config.log
 config.status
+core
 src/.deps/
 src/Makefile
 stamp-h1

@@ -338,8 +338,8 @@ private:
                 _cond.wait(_mutex);
             }
 
-            // If it's done, exit the loop.
-            if (_done) {
+            // If it's done and no more tasks, exit the loop.
+            if (_done && _tasks.empty()) {
                 _mutex.unlock();
                 break;
             }
@@ -381,6 +381,12 @@ public:
     }
     // Add a new task to be served.
     void addTask(Task *task) {
+        // When a done signal has been given, we are not accepting any more jobs.
+        // Rather, we serve until the last task is finished, and then exit.
+        // aka. graceful shutdown.
+        if (_done) {
+            return;
+        }
 	_mutex.lock();
 	_tasks.push(task);
 	_mutex.unlock();

@@ -3,6 +3,10 @@ everything declared and defined in the thread.h file.  As a result,
 there is no library to be linked.  The application simply includes the
 thread.h file and be done with it.
 
+Still, if one wants to test before using it, one can always run:
+
+    $ make check
+
 Comments, questions and pull requests are equally welcome.
 --
 Thanks,
