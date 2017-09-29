@@ -379,6 +379,10 @@ public:
         }
         _mutex.unlock();
     }
+    // Return the task's queue size.
+    size_t queueSize(void) {
+        return _tasks.size();
+    }
     // Add a new task to be served.
     void addTask(Task *task) {
         // When a done signal has been given, we are not accepting any more jobs.
