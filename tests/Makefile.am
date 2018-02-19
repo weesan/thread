@@ -6,4 +6,4 @@ thread_test_SOURCES = thread_test.cc
 
 thread_pool_test_SOURCES = thread_pool_test.cc
 
-AM_CXXFLAGS = -std=c++11 -I../src -fpermissive -Wint-to-pointer-cast
+AM_CXXFLAGS = -std=c++11 -I../include -fpermissive -Wint-to-pointer-cast

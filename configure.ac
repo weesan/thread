@@ -4,7 +4,7 @@
 AC_PREREQ([2.69])
 AC_INIT([thread], [0.0.1], [weesan@weesan.com])
 AM_INIT_AUTOMAKE
-AC_CONFIG_SRCDIR([src/thread.h])
+AC_CONFIG_SRCDIR([include/thread.h])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -28,7 +28,7 @@ AC_CHECK_HEADER_STDBOOL
 
 AC_CONFIG_FILES([
         Makefile \
-        src/Makefile \
+        include/Makefile \
         tests/Makefile \
 ])
 AC_OUTPUT

@@ -271,7 +271,9 @@ private:
 
 protected:
     // Must be overridden by the derived class.
-    virtual void run(void) = 0;
+    // Return true if the task is finished; otherwise, the task will
+    // be re-queued again for further processing later.
+    virtual bool run(void) = 0;
 
 public:
     Task(int priority = 0) : _priority(priority) {
@@ -353,9 +355,12 @@ private:
 
             // Execute the task if any.
             if (task) {
-                task->run();
-                // After a task is finished, destroy it.
-                delete task;
+                if (task->run()) {
+                    // After a task is finished, destroy it.
+                    delete task;
+                } else {
+                    addTask(task);
+                }
             }
         }
     }

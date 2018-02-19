@@ -37,9 +37,10 @@ public:
     ~SleepTask(void) {
         cout << ")" << flush;
     }
-    void run(void) {
+    bool run(void) {
         cout << "." << flush;
         sleep(_sec);
+        return true;
     }
 };
 
