@@ -305,6 +305,7 @@ private:
     priority_queue<Task *> _tasks;
     Mutex _mutex;
     Cond _cond;
+    int _number_of_threads;
     bool _done;
 
 private:
@@ -366,15 +367,14 @@ private:
     }
 
 public:
-    ThreadPool(int n) : _done(false) {
-        // Create a pre-defined number of worker threads.
-        for (int i = 0; i < n; i++) {
-            add(new WorkerThread(this));
-        }    
+    ThreadPool(int n) :
+        _number_of_threads(n),
+        _done(false) {
+        reset();
     }
     ~ThreadPool(void) {
         // Signal all threads to finish.
-        done();
+        wait();
         // Destroy all the remaining tasks.
         _mutex.lock();
         while (!_tasks.empty()) {
@@ -401,12 +401,23 @@ public:
 	_mutex.unlock();
 	_cond.signal();
     }
-    // Signal all the worker threads to exit.
-    void done(void) {
+    // Signal all the worker threads to exit, and then wait for them to end.
+    void wait(void) {
 	_mutex.lock();
         _done = true;
 	_mutex.unlock();
         _cond.broadcast();
+
+        // Wait for all the threads to end.
+        Threads::wait();
+    }
+    // Reinitialize the thread pool.
+    void reset(void) {
+        _done = false;
+        // Create a pre-defined number of worker threads.
+        for (int i = 0; i < _number_of_threads; i++) {
+            add(new WorkerThread(this));
+        }
     }
 };
 

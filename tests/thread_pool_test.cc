@@ -29,8 +29,8 @@ private:
     int _sec;
 
 public:
-    SleepTask(void *ctx) :
-        Task((int)ctx),
+    SleepTask(int priority) :
+        Task(priority),
         _sec(random() % THREAD_SLEEP) {
         cout << "(" << flush;
     }
@@ -41,33 +41,6 @@ public:
         cout << "." << flush;
         sleep(_sec);
         return true;
-    }
-};
-
-/*
- * A thread to send a "done" signal to all the worker threads in a
- * thread pool.
- */
-class EndThreadPool : public Thread {
-private:
-    ThreadPool *_tp;
-    int _sec;
-
-private:
-    void run(void) {
-        sleep(_sec);
-        if (_tp) {
-            _tp->done();
-        }
-        cout << endl;
-    }
-
-public:
-    EndThreadPool(ThreadPool *tp, int sec) : _tp(tp), _sec(sec) {
-        cout << "Scheduled to signal the thread pool to end in "
-             << _sec 
-             << " secs." 
-             << endl;
     }
 };
 
@@ -86,14 +59,9 @@ static void threadPoolWithTasks(int tp_size, int total_task)
         return;
     }
 
-    // Signal the thread pool to end in certain time.
-    new EndThreadPool(&tp,
-                      (tp_size != 0 && total_task != 0 && total_task > tp_size)
-                      ? total_task / tp_size : THREAD_SLEEP + 2) ;
-
     // Add the tasks.
     for (int i = 0; i < total_task; i++) {
-        tp.addTask(new SleepTask((void *)i));
+        tp.addTask(new SleepTask(i));
     }
 
     // Wait for the thread pool to end.
