@@ -13,3 +13,5 @@ tests/.deps/
 tests/Makefile
 tests/thread_pool_test
 tests/thread_test
+tests/*.log
+tests/*.trs
